@@ -24,6 +24,7 @@ jobs:
       - name: Build and push scrolladex-frontend Docker image
         uses: docker/build-push-action@v2
         with:
-          context: ./scrolladex-frontend
+          context: ./scrolladex-fe
+          dockerfile: ./scrolladex-fe/Dockerfile.prod
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/scrolladex-frontend:latest
