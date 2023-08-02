@@ -6,7 +6,7 @@ on:
     branches:
       - master
     paths:
-      - "scrolladex-frontend/**"
+      - "scrolladex-fe/**"
 
 jobs:
   build:
