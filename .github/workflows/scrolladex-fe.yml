@@ -25,6 +25,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ./scrolladex-fe
-          dockerfile: Dockerfile.prod
+          # dockerfile: Dockerfile.prod
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/scrolladex-frontend:latest
