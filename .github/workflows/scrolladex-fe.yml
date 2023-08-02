@@ -1,6 +1,7 @@
 name: CI/CD scrolladex-frontend
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master

@@ -1,6 +1,7 @@
 name: CI/CD Nginx
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
