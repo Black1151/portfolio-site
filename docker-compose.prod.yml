@@ -10,12 +10,15 @@ services:
       - backend
   mainsite:
     image: ${DOCKER_USERNAME}/mainsite-fe:latest
+    # build:
+    #   context: ./mainsite-fe
+    #   dockerfile: Dockerfile.prod
     volumes:
       - ./mainsite-fe:/usr/src/app
     networks:
       - frontend
   backend:
-    image: your-dockerhub-username/scrolladex-backend:latest
+    image: ${DOCKER_USERNAME}/scrolladex-backend:latest
     env_file:
       - .env.backend
     depends_on:
@@ -26,6 +29,9 @@ services:
       - ./scrolladex-be/public/uploads:/usr/src/app/build/public/uploads
   frontend:
     image: ${DOCKER_USERNAME}/scrolladex-frontend:latest
+    # build:
+    #   context: ./scrolladex-fe
+    #   dockerfile: Dockerfile.prod
     env_file:
       - .env.frontend
     networks:
