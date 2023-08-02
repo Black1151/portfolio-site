@@ -24,6 +24,6 @@ jobs:
       - name: Build and push mainsite Docker image
         uses: docker/build-push-action@v2
         with:
-          context: ./mainsite
+          context: ./mainsite-fe
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/mainsite-fe:latest
