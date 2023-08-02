@@ -28,6 +28,5 @@ COPY --from=build /usr/src/app/.next ./.next
 COPY --from=build /usr/src/app/public ./public
 
 # Expose the listening port
-ENV PATH /usr/src/app/node_modules/.bin:$PATH
 EXPOSE 3000
 CMD npm start
