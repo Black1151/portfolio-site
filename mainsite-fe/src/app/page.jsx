@@ -37,7 +37,10 @@ const proficiencies = [
 
 const portfolioProjects = [
   {
-    href: `https://scrolladex.${process.env.NEXT_PUBLIC_DOMAIN}`,
+    href:
+      `https://scrolladex.` + process.env.NODE_ENV === 'production'
+        ? process.env.NEXT_PUBLIC_DOMAIN
+        : 'localhost',
     title: 'Scroll-A-Dex!',
     description: `Personnel management app`,
     features: [
