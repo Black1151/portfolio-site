@@ -12,6 +12,7 @@ import ModalWrapper from "./ModalWrapper";
 import { useUpdateChanges } from "@/hooks/useUpdateChanges";
 import { fetchDepartmentDropdownList } from "@/store/departmentSlice";
 import { useAsyncAction } from "@/hooks/async";
+import { fetchEmployeeOverview } from "@/store/employeeSlice";
 
 const UpdateDepartmentModal: React.FC<FormModalProps> = ({
   isOpen,
@@ -35,9 +36,15 @@ const UpdateDepartmentModal: React.FC<FormModalProps> = ({
   const getChanges = useUpdateChanges(
     (state: RootState) => state.department.departmentDetail.data
   );
+
   const { executeAction: getDepartments } = useAsyncAction({
     action: fetchDepartmentDropdownList,
     errorMessage: "Failed to fetch department list",
+  });
+
+  const { executeAction: refreshEmployees } = useAsyncAction({
+    action: fetchEmployeeOverview,
+    errorMessage: "Failed to fetch department details",
   });
 
   const handleFormSubmit = async (
@@ -55,6 +62,7 @@ const UpdateDepartmentModal: React.FC<FormModalProps> = ({
 
     if (result) {
       getDepartments();
+      refreshEmployees();
     }
   };
 
