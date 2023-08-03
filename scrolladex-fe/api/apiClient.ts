@@ -1,16 +1,19 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from "axios";
 import { camelCase, snakeCase, isObject } from "lodash";
 
 const convertKeys = (data: any, converter: (key: string) => string): any => {
   if (Array.isArray(data)) {
-    return data.map(item => convertKeys(item, converter));
+    return data.map((item) => convertKeys(item, converter));
   } else if (isObject(data) && !isFile(data)) {
     return Object.fromEntries(
       Object.entries(data).map(([key, value]) => {
-        if (key === 'profilePicture') {
+        if (key === "profilePicture") {
           return [converter(key), value];
         }
-        return [converter(key), isObject(value) ? convertKeys(value, converter) : value];
+        return [
+          converter(key),
+          isObject(value) ? convertKeys(value, converter) : value,
+        ];
       })
     );
   } else {
@@ -57,19 +60,16 @@ const handleFormData = async (request: any) => {
     }
     return request;
   } catch (error) {
-    console.error('Error in request interceptor:', error);
-    throw error; 
+    console.error("Error in request interceptor:", error);
+    throw error;
   }
-}
-
+};
 
 const apiClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_SERVER_ADDRESS + '/api',
+  baseURL: "scrolladex.danblackthefullstack.co.uk/api",
 });
 
 apiClient.interceptors.request.use(handleFormData);
-
-console.log(process.env.NEXT_PUBLIC_SERVER_ADDRESS + '/api'),
 
 apiClient.interceptors.response.use(
   (response: AxiosResponse) => {
@@ -79,7 +79,14 @@ apiClient.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.error('Axios error:', error, 'Axios response:', error.response, 'Axios error message:', error.message);
+    console.error(
+      "Axios error:",
+      error,
+      "Axios response:",
+      error.response,
+      "Axios error message:",
+      error.message
+    );
     return Promise.reject(error);
   }
 );
