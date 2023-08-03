@@ -99,8 +99,7 @@ const OverviewCard: React.FC<Props> = ({
           >
             <Image
               src={
-                process.env.NEXT_PUBLIC_SERVER_ADDRESS! +
-                  "/public" +
+                "https://scrolladex.danblackthefullstack.co.uk/public" +
                   employee?.profilePictureUrl || ""
               }
               alt={employee.firstName + " " + employee.lastName}

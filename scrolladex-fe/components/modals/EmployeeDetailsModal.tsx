@@ -143,8 +143,7 @@ const EmployeeDetailsModal: React.FC<Props> = ({
             <Box borderRadius="100%" borderColor="white" borderWidth="4px">
               <Image
                 src={
-                  process.env.NEXT_PUBLIC_SERVER_ADDRESS! +
-                    "/public" +
+                  "https://scrolladex.danblackthefullstack.co.uk/public" +
                     employee?.profilePictureUrl || ""
                 }
                 alt={employee?.firstName + " " + employee?.lastName}
