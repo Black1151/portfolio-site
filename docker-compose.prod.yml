@@ -10,11 +10,6 @@ services:
       - backend
   mainsite:
     image: ${DOCKER_USERNAME}/mainsite-fe:latest
-    # build:
-    #   context: ./mainsite-fe
-    #   dockerfile: Dockerfile.prod
-    volumes:
-      - ./mainsite-fe:/usr/src/app
     networks:
       - frontend
   backend:
@@ -29,9 +24,6 @@ services:
       - ./scrolladex-be/public/uploads:/usr/src/app/build/public/uploads
   frontend:
     image: ${DOCKER_USERNAME}/scrolladex-frontend:latest
-    # build:
-    #   context: ./scrolladex-fe
-    #   dockerfile: Dockerfile.prod
     env_file:
       - .env.frontend
     networks:
@@ -57,7 +49,7 @@ volumes:
 networks:
   frontend:
   backend:
-# version: '3.8'
+# version: "3.8"
 # services:
 #   db:
 #     image: postgres:15
@@ -71,16 +63,12 @@ networks:
 #   mainsite:
 #     build:
 #       context: ./mainsite-fe
-#       dockerfile: Dockerfile.prod
-#     volumes:
-#       - ./mainsite-fe:/usr/src/app
 #     networks:
 #       - frontend
 
 #   backend:
 #     build:
 #       context: ./scrolladex-be
-#       dockerfile: Dockerfile.prod
 #     env_file:
 #       - .env.backend
 #     depends_on:
@@ -93,7 +81,6 @@ networks:
 #   frontend:
 #     build:
 #       context: ./scrolladex-fe
-#       dockerfile: Dockerfile.prod
 #     env_file:
 #       - .env.frontend
 #     networks:
@@ -103,8 +90,8 @@ networks:
 #     build:
 #       context: ./nginx
 #     ports:
-#       - '80:80'
-#       - '443:443'
+#       - "80:80"
+#       - "443:443"
 #     volumes:
 #       - ./nginx.prod.conf:/etc/nginx/nginx.conf
 #       - ./scrolladex-be/public/uploads:/usr/src/nginx/public/uploads
@@ -124,4 +111,3 @@ networks:
 # networks:
 #   frontend:
 #   backend:
-
