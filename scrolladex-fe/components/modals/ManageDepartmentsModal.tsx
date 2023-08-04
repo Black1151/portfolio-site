@@ -33,7 +33,6 @@ import AddDepartmentModal from "./AddDepartmentModal";
 import DepartmentDetailsModal from "./DepartmentDetailsModal";
 import useDepartmentColor from "@/hooks/useDepartmentColor";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { fetchEmployeeOverview } from "@/store/employeeSlice";
 
 interface Props {
   isOpen: boolean;
@@ -87,11 +86,6 @@ const ManageDepartmentsModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const { executeAction: getDepartmentDetails } = useAsyncAction({
     action: fetchDepartment,
-    errorMessage: "Failed to fetch department details",
-  });
-
-  const { executeAction: refreshEmployees } = useAsyncAction({
-    action: fetchEmployeeOverview,
     errorMessage: "Failed to fetch department details",
   });
 
