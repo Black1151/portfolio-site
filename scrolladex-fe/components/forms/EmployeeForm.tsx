@@ -153,7 +153,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
                   <Center>
                     <Image
                       src={
-                        "htttps://danblackthefullstack.co.uk/public" +
+                        "https://danblackthefullstack.co.uk/public" +
                           selectedEmployeeImageUrl || ""
                       }
                       alt="Profile"
