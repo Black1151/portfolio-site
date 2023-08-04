@@ -153,8 +153,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
                   <Center>
                     <Image
                       src={
-                        process.env.NEXT_PUBLIC_SERVER_ADDRESS! +
-                          "/public" +
+                        "htttps://danblackthefullstack.co.uk/public" +
                           selectedEmployeeImageUrl || ""
                       }
                       alt="Profile"
