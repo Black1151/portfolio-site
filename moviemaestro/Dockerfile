@@ -4,11 +4,11 @@ FROM node:16 AS build
 WORKDIR /app
 
 # Install dependencies
-COPY moviemaestro/package*.json ./
+COPY package*.json ./
 RUN npm install
 
 # Build the app
-COPY moviemaestro/ ./
+COPY . . 
 RUN npm run build
 
 # Production stage
