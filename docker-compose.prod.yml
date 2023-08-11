@@ -8,10 +8,12 @@ services:
       - db-data:/var/lib/postgresql/data
     networks:
       - backend
+
   mainsite:
     image: ${DOCKER_USERNAME}/mainsite-fe:latest
     networks:
       - frontend
+
   backend:
     image: ${DOCKER_USERNAME}/scrolladex-backend:latest
     env_file:
@@ -22,12 +24,21 @@ services:
       - backend
     volumes:
       - ./scrolladex-be/public/uploads:/usr/src/app/build/public/uploads
+
   frontend:
     image: ${DOCKER_USERNAME}/scrolladex-frontend:latest
     env_file:
       - .env.frontend
     networks:
       - frontend
+
+  moviemaestro:
+    image: ${DOCKER_USERNAME}/moviemaestro:latest
+    env_file:
+      - .env.moviemaestro
+    networks:
+      - frontend
+
   nginx:
     image: ${DOCKER_USERNAME}/scrolladex-nginx:latest
     ports:
@@ -41,73 +52,14 @@ services:
     depends_on:
       - frontend
       - backend
+      - moviemaestro
     networks:
       - frontend
       - backend
+
 volumes:
   db-data:
+
 networks:
   frontend:
   backend:
-# version: "3.8"
-# services:
-#   db:
-#     image: postgres:15
-#     env_file:
-#       - .env.db
-#     volumes:
-#       - db-data:/var/lib/postgresql/data
-#     networks:
-#       - backend
-
-#   mainsite:
-#     build:
-#       context: ./mainsite-fe
-#     networks:
-#       - frontend
-
-#   backend:
-#     build:
-#       context: ./scrolladex-be
-#     env_file:
-#       - .env.backend
-#     depends_on:
-#       - db
-#     networks:
-#       - backend
-#     volumes:
-#       - ./scrolladex-be/public/uploads:/usr/src/app/public/uploads
-
-#   frontend:
-#     build:
-#       context: ./scrolladex-fe
-#     env_file:
-#       - .env.frontend
-#     networks:
-#       - frontend
-
-#   nginx:
-#     build:
-#       context: ./nginx
-#     ports:
-#       - "80:80"
-#       - "443:443"
-#     volumes:
-#       - ./nginx.prod.conf:/etc/nginx/nginx.conf
-#       - ./scrolladex-be/public/uploads:/usr/src/nginx/public/uploads
-#       - ./nginx/www:/var/www
-#       - /etc/letsencrypt:/etc/letsencrypt
-#     depends_on:
-#       - frontend
-#       - backend
-#       - mainsite
-#     networks:
-#       - frontend
-#       - backend
-
-# volumes:
-#   db-data:
-
-# networks:
-#   frontend:
-#   backend:

@@ -1,0 +1,28 @@
+name: CI/CD moviemaestro
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - "moviemaestro/**"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push moviemaestro Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./moviemaestro
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/moviemaestro:latest
