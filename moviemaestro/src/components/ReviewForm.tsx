@@ -3,7 +3,7 @@ import { Button, TextField, Box, Typography, Rating } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Movie } from "../types";
-import { submitReview } from "../api";
+import { submitReview } from "../api/api";
 import Dialog from "@mui/material/Dialog";
 
 const validationSchema = yup.object({

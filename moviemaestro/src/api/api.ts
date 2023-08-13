@@ -3,7 +3,6 @@ import { MovieCompany, Movie, Review, ReviewResponse } from "../types";
 
 const BASE_URL =
   "https://comforting-starlight-f3456a.netlify.app/.netlify/functions";
-
 const apiClient = axios.create({
   baseURL: BASE_URL,
   headers: {

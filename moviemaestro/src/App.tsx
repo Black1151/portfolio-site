@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Movie, MovieCompany } from "./types";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import { getMovieCompanies, getMovies } from "./api";
+import { getMovieCompanies, getMovies } from "./api/api";
 import {
   Header,
   Navbar,

@@ -3,12 +3,9 @@ export interface Movie {
   reviews: number[];
   title: string;
   filmCompanyId: string;
-  cost: number;
-  releaseYear: number;
 }
 
 export interface ReviewResponse {
-  success: boolean;
   message: string;
 }
 
