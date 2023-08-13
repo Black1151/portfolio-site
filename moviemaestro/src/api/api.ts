@@ -18,8 +18,6 @@ apiClient.interceptors.response.use(
 );
 
 export const getMovieCompanies = async (): Promise<MovieCompany[]> => {
-  console.log(BASE_URL + "/movieCompanies");
-
   const response = await apiClient.get("/movieCompanies");
   return response.data;
 };
