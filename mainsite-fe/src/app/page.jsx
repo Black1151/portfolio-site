@@ -18,8 +18,10 @@ const proficiencies = [
   { label: 'React', logo: 'react.png' },
   { label: 'Next JS', logo: 'next.png' },
   { label: 'Redux', logo: 'redux.png' },
+  { label: 'GraphQL', logo: 'graphql.png' },
   { label: 'Tailwind CSS', logo: 'tailwind.png' },
   { label: 'Chakra UI', logo: 'chakra.png' },
+  { label: 'Material UI', logo: 'mui.png' },
   { label: 'Sass', logo: 'sass.png' },
   { label: 'React Native', logo: 'react.png' },
   { label: 'Native Base', logo: 'nativebase.png' },
@@ -67,7 +69,7 @@ const portfolioProjects = [
 
 function Clients() {
   return (
-    <div className="mt-24 bg-white py-20 sm:mt-32 sm:py-32 lg:mt-56">
+    <div className="mt-24 flex flex-col gap-20 bg-white py-20 sm:mt-32 sm:py-32 lg:mt-56">
       <Container>
         <FadeIn className="flex items-center gap-x-8">
           <h2 className="text-center font-display text-lg font-semibold tracking-wider text-black sm:text-left">
@@ -91,7 +93,7 @@ function Clients() {
                       height={75}
                       unoptimized
                     />
-                    <p className="text-md mt-6  flex gap-x-2 text-neutral-950 ">
+                    <p className="text-md mt-6 flex gap-x-2 text-neutral-950 ">
                       {label}
                     </p>
                   </div>
@@ -121,11 +123,13 @@ function Portfolio() {
               <a target="_blank" rel="noopener noreferrer" href={project.href}>
                 <article className="relative flex min-h-[800px] w-full flex-1 flex-col justify-between rounded-3xl ring-1 ring-neutral-950/5 transition hover:bg-neutral-50 md:min-h-[500px] ">
                   <div className="rounded-t-3xl bg-black">
-                    <div className="p-6 text-orange-500 md:p-8">
-                      <p className="font-display text-3xl font-semibold">
-                        {project.title}
-                      </p>
-                      <p className="mt-4 text-base">{project.description}</p>
+                    <div className="flex p-6 text-orange-500 md:p-8">
+                      <div>
+                        <p className="font-display text-3xl font-semibold">
+                          {project.title}
+                        </p>
+                        <p className="mt-4 text-base">{project.description}</p>
+                      </div>
                     </div>
                   </div>
                   <div className="absolute left-0 top-[128px] h-full w-full md:top-[144px]">
@@ -229,7 +233,7 @@ export default async function Home() {
         </h1>
         <FadeIn delay={0.6}>
           <p className="mt-6 text-xl text-neutral-600">
-            Full stack developer, designer, and general clever clogs.
+            Full stack developer, designer, and problem solver.
           </p>
         </FadeIn>
       </Container>
