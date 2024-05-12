@@ -32,12 +32,12 @@ services:
     networks:
       - frontend
 
-  moviemaestro:
-    image: ${DOCKER_USERNAME}/moviemaestro:latest
-    env_file:
-      - .env.moviemaestro
-    networks:
-      - frontend
+  # moviemaestro:
+  #   image: ${DOCKER_USERNAME}/moviemaestro:latest
+  #   env_file:
+  #     - .env.moviemaestro
+  #   networks:
+  #     - frontend
 
   nginx:
     image: ${DOCKER_USERNAME}/scrolladex-nginx:latest
@@ -52,7 +52,7 @@ services:
     depends_on:
       - frontend
       - backend
-      - moviemaestro
+      # - moviemaestro
     networks:
       - frontend
       - backend
