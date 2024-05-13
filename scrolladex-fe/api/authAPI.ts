@@ -1,5 +1,5 @@
-import { AxiosResponse } from 'axios';
-import apiClient from './apiClient';
+import { AxiosResponse } from "axios";
+import apiClient from "./apiClient";
 
 interface User {
   id?: number;
@@ -16,59 +16,61 @@ type ApiResponse<T> = {
   data: T;
 };
 
-
 export const registerUserAPI = async (data: User): Promise<number | null> => {
   try {
-    const response: AxiosResponse<User> = await apiClient.post('/register', data);
+    const response: AxiosResponse<User> = await apiClient.post(
+      "/register",
+      data
+    );
     return response.status;
   } catch (error) {
-    console.error('Error registering user', error);
+    console.error("Error registering user", error);
     throw error;
   }
 };
 
 export const loginUserAPI = async (data: User): Promise<ApiResponse<User>> => {
   try {
-    const response: AxiosResponse<User> = await apiClient.post('/login', data);
+    const response: AxiosResponse<User> = await apiClient.post("/login", data);
     return {
       status: response.status,
-      data: response.data
+      data: response.data,
     };
   } catch (error) {
-    console.error('Error logging in user', error);
+    console.error("Error logging in user", error);
     throw error;
   }
 };
 
 export const logoutUserAPI = async (): Promise<number | null> => {
   try {
-    const response: AxiosResponse<null> = await apiClient.post('/logout');
+    const response: AxiosResponse<null> = await apiClient.post("/logout");
     return response.status;
   } catch (error) {
-    console.error('Error logging out user', error);
+    console.error("Error logging out user", error);
     throw error;
   }
 };
 
 export const getProfileAPI = async (): Promise<User | null> => {
   try {
-    const response: AxiosResponse<User> = await apiClient.get('/profile');
+    const response: AxiosResponse<User> = await apiClient.get("/profile");
     return response.data;
   } catch (error) {
-    console.error('Error getting user profile', error);
+    console.error("Error getting user profile", error);
     throw error;
   }
 };
 
 export const checkSessionAPI = async (): Promise<AuthenticatedResponse> => {
   try {
-    const response: AxiosResponse<AuthenticatedResponse> = await apiClient.get('/check-session', { withCredentials: true });
+    const response: AxiosResponse<AuthenticatedResponse> = await apiClient.get(
+      "/check-session",
+      { withCredentials: true }
+    );
     return response.data;
   } catch (error) {
-    console.error('Error checking session', error);
+    console.error("Error checking session", error);
     throw error;
   }
 };
-
-
-

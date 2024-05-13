@@ -44,7 +44,7 @@ const corsConfig: CorsConfig = {
   |                     one of the above values.
   |
   */
-  origin: true,
+  origin: ['https://danblackthefullstack.co.uk', 'https://scrolladex.danblackthefullstack.co.uk'],
 
   /*
   |--------------------------------------------------------------------------

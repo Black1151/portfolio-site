@@ -1,4 +1,4 @@
-FROM nginx:latest
+FROM nginx:1.21
 
 COPY ./start-nginx.sh /start-nginx.sh
 

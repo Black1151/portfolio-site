@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 services:
   db:
     image: postgres:15
@@ -18,7 +18,7 @@ services:
       - /usr/src/app/node_modules
       - /usr/src/app/.next
   backend:
-    build: 
+    build:
       context: ./scrolladex-be
       dockerfile: Dockerfile.dev
     volumes:
@@ -27,6 +27,8 @@ services:
     environment:
       - CHOKIDAR_USEPOLLING=true
       - CHOKIDAR_INTERVAL=100
+    ports:
+      - "3333:3333"
     depends_on:
       - db
   frontend:
@@ -37,12 +39,12 @@ services:
       - ./scrolladex-fe:/usr/src/app
       - /usr/src/app/node_modules
       - /usr/src/app/.next
-   
+
   nginx:
-    image: nginx:latest
+    image: nginx:1.21
     ports:
-      - '80:80'
-      - '443:443'
+      - "80:80"
+      - "443:443"
     volumes:
       - ./nginx.dev.conf:/etc/nginx/nginx.conf
       - ./certs/ssl:/etc/ssl/certs

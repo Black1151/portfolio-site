@@ -1,7 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
 export default class AuthController {
-  
   public async register({ request, auth, response }: HttpContextContract) {
     const userData = request.only(['username', 'password'])
     const user = new User()
@@ -11,17 +10,16 @@ export default class AuthController {
     await auth.login(user)
     response.send({ message: 'Registered and logged in successfully' })
   }
-  
+
   public async login({ request, auth, response }: HttpContextContract) {
-  const user = request.only(['username', 'password']);
-  try {
-    await auth.use('web').attempt(user.username, user.password);
-    response.status(200).send({ message: 'Logged in successfully' });
-  } catch {
-    response.status(401).send({ message: 'Invalid credentials' }); 
+    const user = request.only(['username', 'password'])
+    try {
+      await auth.use('web').attempt(user.username, user.password)
+      response.status(200).send({ message: 'Logged in successfully' })
+    } catch {
+      response.status(401).send({ message: 'Invalid credentials' })
+    }
   }
-  }
-  
 
   public async logout({ auth, response }: HttpContextContract) {
     await auth.logout()
@@ -38,20 +36,10 @@ export default class AuthController {
   }
 
   public async checkSession({ auth, response }: HttpContextContract) {
-
-    console.log("///////////////////////////checksessionHIT")
-
     if (auth.isLoggedIn) {
-      console.log("USER IS AUTHENTICATED")
       return { isAuthenticated: true }
     } else {
-      console.log("USER IS NNNNOOOOOOOTTTT AUTHENTICATED")
-      return response.unauthorized({ isAuthenticated: false})
+      return response.unauthorized({ isAuthenticated: false })
     }
+  }
 }
-
-}
-
-
-
-
