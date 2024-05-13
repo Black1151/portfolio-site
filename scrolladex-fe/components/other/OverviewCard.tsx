@@ -72,7 +72,7 @@ const OverviewCard: React.FC<Props> = ({
           <Box whiteSpace="nowrap" zIndex={1}>
             <Box width="100%">
               <Heading
-                fontSize={["sm", "xl", "sm", "xl", "sm", "xl"]}
+                fontSize={["xs", "xl", "xs", "xl", "xs", "xl"]}
                 pb={[3, 6, null, 6, 6, 6]}
                 pt={[3, 0, null, 0, 0, 0]}
               >
@@ -94,8 +94,10 @@ const OverviewCard: React.FC<Props> = ({
             zIndex={1}
             borderColor="white"
             borderWidth="2px"
-            borderRadius="full"
+            borderRadius="50%"
             overflow="hidden"
+            width={[120, 160, 140, 160, 140, 160]}
+            height={[120, 160, 140, 160, 140, 160]}
           >
             <Image
               src={
@@ -103,8 +105,6 @@ const OverviewCard: React.FC<Props> = ({
                   employee?.profilePictureUrl || ""
               }
               alt={employee.firstName + " " + employee.lastName}
-              width={[92, 110, 92, 110, 92, 110]}
-              height={[92, 110, 92, 110, 92, 110]}
             />
           </Box>
         </Flex>
