@@ -34,13 +34,13 @@ const DepartmentDetailsModal: React.FC<FormModalProps> = ({
             top="10px"
             left={0}
             right={0}
-            height={["120px", null, "130px"]}
+            height={["140px", null, "150px"]}
             background={`linear-gradient(to right, #3498db, white)`}
             zIndex={-1}
           />
           <Box
             position="absolute"
-            top={["130px", null, "140px"]}
+            top={["140px", null, "160"]}
             left={0}
             right={0}
             height={1}
