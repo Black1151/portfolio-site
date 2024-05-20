@@ -96,8 +96,8 @@ const OverviewCard: React.FC<Props> = ({
             borderWidth="2px"
             borderRadius="50%"
             overflow="hidden"
-            width={[120, 160, 140, 160, 140, 160]}
-            height={[120, 160, 140, 160, 140, 160]}
+            width={[92, 110, 92, 110, 92, 110]}
+            height={[92, 110, 92, 110, 92, 110]}
           >
             <Image
               src={
