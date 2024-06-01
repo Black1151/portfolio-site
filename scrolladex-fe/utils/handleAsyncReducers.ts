@@ -1,25 +1,33 @@
-import { AsyncThunk, CaseReducer, PayloadAction } from "@reduxjs/toolkit";
+import {
+  AsyncThunk,
+  CaseReducer,
+  PayloadAction,
+  ActionReducerMapBuilder,
+} from "@reduxjs/toolkit";
 
 type State = Record<string, any>;
 
-type HandleAsyncReducersArgs<ThunkArg, ThunkConfig> = {
-  builder: any,
-  asyncThunk: AsyncThunk<ThunkArg, ThunkConfig, {}>,
-  stateKey: string,
-  onFulfilled?: (state: State, action: PayloadAction<ThunkArg, string, any, any>) => void,
-  onPending?: (state: State) => void,
-  onRejected?: (state: State, action: PayloadAction<null, string, any, any>) => void,
-};
+interface HandleAsyncReducersArgs<Returned, ThunkArg> {
+  builder: ActionReducerMapBuilder<State>;
+  asyncThunk: AsyncThunk<Returned, ThunkArg, {}>;
+  stateKey: string;
+  onFulfilled?: (state: State, action: PayloadAction<Returned>) => void;
+  onPending?: (state: State) => void;
+  onRejected?: (state: State, action: PayloadAction<unknown>) => void;
+}
 
-const handleAsyncReducers = <ThunkArg, ThunkConfig>({
+const handleAsyncReducers = <Returned, ThunkArg>({
   builder,
   asyncThunk,
   stateKey,
   onFulfilled,
   onPending,
-  onRejected
-}: HandleAsyncReducersArgs<ThunkArg, ThunkConfig>) => {
-  const pendingReducer: CaseReducer<State, PayloadAction<null, string, any, any>> = (state) => {
+  onRejected,
+}: HandleAsyncReducersArgs<Returned, ThunkArg>) => {
+  const pendingReducer: CaseReducer<
+    State,
+    ReturnType<typeof asyncThunk.pending>
+  > = (state) => {
     state[stateKey].status = "loading";
     state[stateKey].error = null;
     if (onPending) {
@@ -27,7 +35,10 @@ const handleAsyncReducers = <ThunkArg, ThunkConfig>({
     }
   };
 
-  const fulfilledReducer: CaseReducer<State, PayloadAction<ThunkArg, string, any, any>> = (state, action) => {
+  const fulfilledReducer: CaseReducer<State, PayloadAction<Returned>> = (
+    state,
+    action
+  ) => {
     state[stateKey].status = "succeeded";
     state[stateKey].data = action.payload;
     if (onFulfilled) {
@@ -35,9 +46,12 @@ const handleAsyncReducers = <ThunkArg, ThunkConfig>({
     }
   };
 
-  const rejectedReducer: CaseReducer<State, PayloadAction<null, string, any, any>> = (state, action) => {
+  const rejectedReducer: CaseReducer<
+    State,
+    ReturnType<typeof asyncThunk.rejected>
+  > = (state, action) => {
     state[stateKey].status = "failed";
-    state[stateKey].error = action.error ? action.error.message : 'Unknown error';
+    state[stateKey].error = action.error.message ?? "Unknown error";
     if (onRejected) {
       onRejected(state, action);
     }
@@ -47,6 +61,5 @@ const handleAsyncReducers = <ThunkArg, ThunkConfig>({
   builder.addCase(asyncThunk.fulfilled, fulfilledReducer);
   builder.addCase(asyncThunk.rejected, rejectedReducer);
 };
-
 
 export default handleAsyncReducers;
