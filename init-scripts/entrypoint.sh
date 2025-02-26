@@ -1,9 +1,9 @@
 #!/bin/sh
 set -e
 
-echo "Waiting for the database to be available..."
-# Wait up to 30 seconds for the DB to be ready.
-./wait-for-it.sh db:5432 -t 30
+# echo "Waiting for the database to be available..."
+# # Wait up to 30 seconds for the DB to be ready.
+# ./wait-for-it.sh db:5432 -t 30
 
 echo "Database is available. Generating Prisma client..."
 # Generate the Prisma client (this does not require a DB connection in most cases)

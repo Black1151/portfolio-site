@@ -49,6 +49,8 @@ services:
     build:
       context: ./big-up-fe
       dockerfile: Dockerfile.dev
+    environment:
+      - DATABASE_URL=postgresql://scrolladexAdmin:password@db:5432/scrolladex
     volumes:
       - ./big-up-fe:/usr/src/app
       - /usr/src/app/node_modules
