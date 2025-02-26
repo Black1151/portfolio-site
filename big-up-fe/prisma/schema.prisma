@@ -1,0 +1,39 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                   Int           @id @default(autoincrement())
+  fullName             String
+  imageUrl             String
+  uniqueId             String        @unique
+  officeName           String?
+  departmentName       String?
+  recognitionsReceived Recognition[] @relation("Received")
+  recognitionsGiven    Recognition[] @relation("Given")
+}
+
+model BigUpType {
+  id           Int           @id @default(autoincrement())
+  name         String
+  recognitions Recognition[]
+}
+
+model Recognition {
+  id          Int       @id @default(autoincrement())
+  message     String
+  description String
+  createdAt   DateTime  @default(now())
+  senderId    Int
+  recipientId Int
+  typeId      Int
+  recipient   User      @relation("Received", fields: [recipientId], references: [id])
+  sender      User      @relation("Given", fields: [senderId], references: [id])
+  type        BigUpType @relation(fields: [typeId], references: [id])
+}

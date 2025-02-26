@@ -1,0 +1,52 @@
+{
+  "name": "happiness-score",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "dev_open": "next dev -p 3000 -H 0.0.0.0",
+    "build": "next build",
+    "start": "next start -p 3002",
+    "start_dev": "next start -p 3000",
+    "lint": "next lint",
+    "prepare": "husky install",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "seed": "prisma db seed"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^2.8.2",
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
+    "@faker-js/faker": "^9.4.0",
+    "@mui/icons-material": "^5.16.6",
+    "@prisma/client": "^6.3.0",
+    "faker-js": "^1.0.0",
+    "next": "14.2.5",
+    "node-fetch": "^3.3.2",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-hook-form": "^7.52.2",
+    "react-icons": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint-config-next": "14.2.5",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.3.3",
+    "prisma": "^6.3.0",
+    "typescript": "^5"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{css,scss,md,json}": "prettier --write"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  }
+}

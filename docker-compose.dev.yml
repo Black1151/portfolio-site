@@ -1,13 +1,16 @@
 version: "3.8"
 services:
   db:
-    image: postgres:15
+    image: postgres:17
     environment:
       POSTGRES_USER: scrolladexAdmin
       POSTGRES_PASSWORD: password
       POSTGRES_DB: scrolladex
     volumes:
+      - ./init-scripts:/docker-entrypoint-initdb.d
       - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
 
   mainsite:
     build:
@@ -17,6 +20,7 @@ services:
       - ./mainsite-fe:/usr/src/app
       - /usr/src/app/node_modules
       - /usr/src/app/.next
+
   backend:
     build:
       context: ./scrolladex-be
@@ -31,6 +35,7 @@ services:
       - "3333:3333"
     depends_on:
       - db
+
   frontend:
     build:
       context: ./scrolladex-fe
@@ -39,6 +44,17 @@ services:
       - ./scrolladex-fe:/usr/src/app
       - /usr/src/app/node_modules
       - /usr/src/app/.next
+
+  big-up:
+    build:
+      context: ./big-up-fe
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./big-up-fe:/usr/src/app
+      - /usr/src/app/node_modules
+      - /usr/src/app/.next
+    depends_on:
+      - db
 
   nginx:
     image: nginx:1.21
@@ -52,5 +68,6 @@ services:
     depends_on:
       - frontend
       - backend
+      - big-up
 volumes:
   db-data:
