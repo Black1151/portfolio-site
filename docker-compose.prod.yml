@@ -1,65 +1,120 @@
-version: "3.8"
 services:
+  # --------------------------------------------------
+  # 1) Shared PostgreSQL Database
+  # --------------------------------------------------
   db:
-    image: postgres:15
-    env_file:
-      - .env.db
+    image: postgres:17
+    container_name: db
+    environment:
+      POSTGRES_USER: scrolladexAdmin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: scrolladex
     volumes:
       - db-data:/var/lib/postgresql/data
-    networks:
-      - backend
+    restart: always
 
+  # --------------------------------------------------
+  # 2) Mainsite (Production Image)
+  # --------------------------------------------------
   mainsite:
-    image: ${DOCKER_USERNAME}/mainsite-fe:latest
-    networks:
-      - frontend
-
-  backend:
-    image: ${DOCKER_USERNAME}/scrolladex-backend:latest
-    env_file:
-      - .env.backend
+    image: danb1911/mainsite-fe:latest
+    container_name: mainsite
+    # If you had environment variables in dev, replicate them here:
+    # environment:
+    #   - API_URL=https://some-api
     depends_on:
       - db
-    networks:
-      - backend
-    volumes:
-      - ./scrolladex-be/public/uploads:/usr/src/app/build/public/uploads
+    restart: always
 
-  frontend:
-    image: ${DOCKER_USERNAME}/scrolladex-frontend:latest
-    env_file:
-      - .env.frontend
-    networks:
-      - frontend
-
-  # moviemaestro:
-  #   image: ${DOCKER_USERNAME}/moviemaestro:latest
-  #   env_file:
-  #     - .env.moviemaestro
-  #   networks:
-  #     - frontend
-
-  nginx:
-    image: ${DOCKER_USERNAME}/scrolladex-nginx:latest
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx.prod.conf:/etc/nginx/nginx.conf
-      - ./scrolladex-be/public/uploads:/usr/src/nginx/public/uploads
-      - ./nginx/www:/var/www
-      - /etc/letsencrypt:/etc/letsencrypt
+  # --------------------------------------------------
+  # 3) Scrolladex Backend
+  # --------------------------------------------------
+  backend:
+    image: danb1911/scrolladex-backend:latest
+    container_name: backend
+    # Same dev environment variables:
+    environment:
+      # - CHOKIDAR_USEPOLLING=true
+      # - CHOKIDAR_INTERVAL=100
+      - DATABASE_URL=postgresql://scrolladexAdmin:password@db:5432/scrolladex
+      - HOST=0.0.0.0
+      - PORT=3333
+      - APP_KEY=2XFY1ttNs6CztecWpR_dOMEOd--grvZP
+      - APP_NAME=Scrolladex
+      - DRIVE_DISK=local
+      - NODE_ENV=production
+      - DB_CONNECTION=pg
+      - PG_HOST=db
+      - PG_PORT=5432
+      - PG_USER=scrolladexAdmin
+      - PG_PASSWORD=password
+      - PG_DB_NAME=scrolladex
+      - SESSION_DRIVER=cookie
     depends_on:
-      - frontend
+      - db
+    restart: always
+    # Only expose 3333 if you want to debug the API directly from the outside
+    # otherwise keep it unexposed (comment out ports) so it's internal only
+    ports:
+      - "3333:3333"
+
+  # --------------------------------------------------
+  # 4) Scrolladex Frontend
+  # --------------------------------------------------
+  frontend:
+    image: danb1911/scrolladex-frontend:latest
+    container_name: frontend
+    # If dev had environment variables, put them here:
+    # environment:
+    #   - API_URL=https://scrolladex.danielblack-dev.co.uk/api
+    depends_on:
+      - db
+    restart: always
+
+  # --------------------------------------------------
+  # 5) Big-Up
+  # --------------------------------------------------
+  big-up:
+    image: danb1911/big-up-fe:latest
+    container_name: big-up
+    environment:
+      - DATABASE_URL=postgresql://scrolladexAdmin:password@db:5432/scrolladex
+    depends_on:
+      - db
+    restart: always
+
+  # --------------------------------------------------
+  # 6) Production Nginx Reverse Proxy
+  # --------------------------------------------------
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    depends_on:
+      - mainsite
       - backend
-      # - moviemaestro
-    networks:
       - frontend
-      - backend
+      - big-up
+    ports:
+      - "80:80" # HTTP
+      - "443:443" # HTTPS
+    volumes:
+      - ./nginx.prod.conf:/etc/nginx/nginx.conf:ro
+      - ./certbot/conf:/etc/letsencrypt # For SSL certs
+      - ./certbot/www:/var/www/certbot # For ACME challenge
+    restart: always
+
+  # --------------------------------------------------
+  # 7) Certbot for Let’s Encrypt
+  # --------------------------------------------------
+  certbot:
+    image: certbot/certbot:latest
+    container_name: certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    entrypoint: /bin/sh
+    depends_on:
+      - nginx
 
 volumes:
   db-data:
-
-networks:
-  frontend:
-  backend:

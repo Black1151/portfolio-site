@@ -1,4 +1,4 @@
-# ---- Base Node ----
+ # ---- Base Node ----
 FROM node:alpine AS base
 # Create app directory
 RUN mkdir -p /usr/src/app
