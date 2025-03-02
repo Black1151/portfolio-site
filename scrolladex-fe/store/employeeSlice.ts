@@ -1,18 +1,24 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { 
-  getEmployeesOverviewAPI, 
-  createEmployeeAPI, 
-  getEmployeeAPI, 
-  updateEmployeeAPI, 
-  deleteEmployeeAPI 
-} from "@/api/employeeApi";
-import { EmployeeOverview, EmployeeCreateUpdate, Employee, RequestState, SearchCriteria } from "@/types";
+import {
+  getEmployeesOverviewAPI,
+  createEmployeeAPI,
+  getEmployeeAPI,
+  updateEmployeeAPI,
+  deleteEmployeeAPI,
+} from "@/services/employeeApi";
+import {
+  EmployeeOverview,
+  EmployeeCreateUpdate,
+  Employee,
+  RequestState,
+  SearchCriteria,
+} from "@/types";
 import handleAsyncReducers from "@/utils/handleAsyncReducers";
 
 const initialRequestState = <T>(): RequestState<T> => ({
   data: null,
-  status: 'idle',
-  error: null
+  status: "idle",
+  error: null,
 });
 
 type EmployeesState = {
@@ -23,7 +29,7 @@ type EmployeesState = {
   deleteEmployee: RequestState<void>;
 };
 
-const initialState: EmployeesState = { 
+const initialState: EmployeesState = {
   employeeEntities: initialRequestState<EmployeeOverview[]>(),
   employeeDetail: initialRequestState<Employee>(),
   createEmployee: initialRequestState<number>(),
@@ -36,15 +42,17 @@ const handleThunkAPI = async (apiCall: Promise<any>, thunkAPI: any) => {
     const response = await apiCall;
     return response;
   } catch (error) {
-    console.error('Error occurred:', error);
+    console.error("Error occurred:", error);
     const err = error as Error;
-    return thunkAPI.rejectWithValue({ error: err.message || 'Unknown error occurred' });
+    return thunkAPI.rejectWithValue({
+      error: err.message || "Unknown error occurred",
+    });
   }
 };
 
 export const fetchEmployeeOverview = createAsyncThunk(
   "employees/fetchEmployees",
-  (searchCriteria : SearchCriteria, thunkAPI) => {
+  (searchCriteria: SearchCriteria, thunkAPI) => {
     return handleThunkAPI(getEmployeesOverviewAPI(searchCriteria), thunkAPI);
   }
 );
@@ -57,7 +65,10 @@ export const fetchEmployee = createAsyncThunk(
 export const createEmployee = createAsyncThunk(
   "departments/createDepartment",
   async (newEmployee: EmployeeCreateUpdate, thunkAPI) => {
-    const response = await handleThunkAPI(createEmployeeAPI(newEmployee), thunkAPI);
+    const response = await handleThunkAPI(
+      createEmployeeAPI(newEmployee),
+      thunkAPI
+    );
     if (response) {
       thunkAPI.dispatch(fetchEmployeeOverview({}));
     }
@@ -83,7 +94,7 @@ export const deleteEmployee = createAsyncThunk(
     if (response) {
       thunkAPI.dispatch(fetchEmployeeOverview({}));
     }
-    return response
+    return response;
   }
 );
 
@@ -95,35 +106,33 @@ const employeesSlice = createSlice({
     handleAsyncReducers({
       builder,
       asyncThunk: fetchEmployeeOverview,
-      stateKey: 'employeeEntities'
+      stateKey: "employeeEntities",
     });
-    
+
     handleAsyncReducers({
       builder,
       asyncThunk: fetchEmployee,
-      stateKey: 'employeeDetail'
+      stateKey: "employeeDetail",
     });
-    
+
     handleAsyncReducers({
       builder,
       asyncThunk: createEmployee,
-      stateKey: 'createEmployee'
+      stateKey: "createEmployee",
     });
-    
+
     handleAsyncReducers({
       builder,
       asyncThunk: updateEmployee,
-      stateKey: 'updateEmployee'
+      stateKey: "updateEmployee",
     });
-    
+
     handleAsyncReducers({
       builder,
       asyncThunk: deleteEmployee,
-      stateKey: 'deleteEmployee'
+      stateKey: "deleteEmployee",
     });
   },
 });
-
-
 
 export default employeesSlice.reducer;
