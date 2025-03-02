@@ -1,6 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
-import Logger from '@ioc:Adonis/Core/Logger'
 
 export default class AuthController {
   public async register({ request, auth, response }: HttpContextContract) {
@@ -14,11 +13,6 @@ export default class AuthController {
   }
 
   public async login({ request, auth, response }: HttpContextContract) {
-    Logger.info('Login request received')
-
-    console.log('XXX LOGIN ROUTE HIT')
-    console.log(request.body())
-
     const user = request.only(['username', 'password'])
     try {
       await auth.use('web').attempt(user.username, user.password)
