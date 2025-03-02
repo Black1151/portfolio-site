@@ -7,6 +7,13 @@
 
 import type { CorsConfig } from '@ioc:Adonis/Core/Cors'
 
+import Env from '@ioc:Adonis/Core/Env'
+
+const allowedOrigins = Env.get('ALLOWED_ORIGINS', '')
+  .split(',')
+  .map((origin: string) => origin.trim())
+  .filter((origin: string) => origin.length > 0)
+
 const corsConfig: CorsConfig = {
   /*
   |--------------------------------------------------------------------------
@@ -44,7 +51,9 @@ const corsConfig: CorsConfig = {
   |                     one of the above values.
   |
   */
-  origin: ['https://scrolladex.danielblack-dev.co.uk'],
+  // origin: ['https://scrolladex.danielblack-dev.co.uk'],
+
+  origin: allowedOrigins,
 
   /*
   |--------------------------------------------------------------------------
