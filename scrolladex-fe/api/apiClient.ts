@@ -67,7 +67,7 @@ const handleFormData = async (request: any) => {
 
 const apiClient = axios.create({
   // baseURL: process.env.NEXT_PUBLIC_SERVER_ADDRESS,
-  baseURL: "https://scrolladex.danielblack-dev.co.uk/api",
+  baseURL: "https://scrolladex.danielblack-dev.co.uk",
 });
 
 apiClient.interceptors.request.use(handleFormData);
