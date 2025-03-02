@@ -50,8 +50,6 @@ export const App = () => {
       <Navbar />
       {isLoading ? (
         <Loading />
-      ) : error ? (
-        <ErrorComponent error={error} handleRefresh={handleRefresh} />
       ) : (
         <>
           <Header />

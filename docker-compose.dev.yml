@@ -136,7 +136,7 @@ services:
 
   moviemaestro:
     build:
-      context: ./moviemaestro-fe
+      context: ./moviemaestro
       dockerfile: Dockerfile.dev
     environment:
       - DATABASE_URL=postgresql://scrolladexAdmin:password@db:5432/scrolladex
