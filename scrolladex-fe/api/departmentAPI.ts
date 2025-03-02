@@ -44,6 +44,8 @@ export const getDepartmentWithEmployeesAPI = async (
   }
 };
 
+// TEST
+
 export const getDepartmentAPI = async (
   id: number
 ): Promise<Department | null> => {
