@@ -1,5 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
+import Logger from '@ioc:Adonis/Core/Logger'
+
 export default class AuthController {
   public async register({ request, auth, response }: HttpContextContract) {
     const userData = request.only(['username', 'password'])
@@ -12,6 +14,8 @@ export default class AuthController {
   }
 
   public async login({ request, auth, response }: HttpContextContract) {
+    Logger.info('Login request received')
+
     console.log('XXX LOGIN ROUTE HIT')
     console.log(request.body())
 
