@@ -1,3 +1,79 @@
+# version: "3.8"
+# services:
+#   db:
+#     image: postgres:17
+#     environment:
+#       POSTGRES_USER: scrolladexAdmin
+#       POSTGRES_PASSWORD: password
+#       POSTGRES_DB: scrolladex
+#     volumes:
+#       - ./init-scripts:/docker-entrypoint-initdb.d
+#       - db-data:/var/lib/postgresql/data
+#     ports:
+#       - "5432:5432"
+
+#   mainsite:
+#     build:
+#       context: ./mainsite-fe
+#       dockerfile: Dockerfile.dev
+#     volumes:
+#       - ./mainsite-fe:/usr/src/app
+#       - /usr/src/app/node_modules
+#       - /usr/src/app/.next
+
+#   backend:
+#     build:
+#       context: ./scrolladex-be
+#       dockerfile: Dockerfile.dev
+#     volumes:
+#       - ./scrolladex-be:/usr/src/app
+#       - ./scrolladex-be/public/uploads:/usr/src/app/public/uploads
+#     environment:
+#       - CHOKIDAR_USEPOLLING=true
+#       - CHOKIDAR_INTERVAL=100
+#     ports:
+#       - "3333:3333"
+#     depends_on:
+#       - db
+
+#   frontend:
+#     build:
+#       context: ./scrolladex-fe
+#       dockerfile: Dockerfile.dev
+#     volumes:
+#       - ./scrolladex-fe:/usr/src/app
+#       - /usr/src/app/node_modules
+#       - /usr/src/app/.next
+
+#   big-up:
+#     build:
+#       context: ./big-up-fe
+#       dockerfile: Dockerfile.dev
+#     environment:
+#       - DATABASE_URL=postgresql://scrolladexAdmin:password@db:5432/scrolladex
+#     volumes:
+#       - ./big-up-fe:/usr/src/app
+#       - /usr/src/app/node_modules
+#       - /usr/src/app/.next
+#     depends_on:
+#       - db
+
+#   nginx:
+#     image: nginx:1.21
+#     ports:
+#       - "80:80"
+#       - "443:443"
+#     volumes:
+#       - ./nginx.dev.conf:/etc/nginx/nginx.conf
+#       - ./certs/ssl:/etc/ssl/certs
+#       - ./scrolladex-be/public:/usr/src/nginx/public
+#     depends_on:
+#       - frontend
+#       - backend
+#       - big-up
+# volumes:
+#   db-data:
+
 version: "3.8"
 services:
   db:
@@ -58,6 +134,19 @@ services:
     depends_on:
       - db
 
+  moviemaestro:
+    build:
+      context: ./moviemaestro-fe
+      dockerfile: Dockerfile.dev
+    environment:
+      - DATABASE_URL=postgresql://scrolladexAdmin:password@db:5432/scrolladex
+    volumes:
+      - ./moviemaestro-fe:/usr/src/app
+      - /usr/src/app/node_modules
+      - /usr/src/app/.next
+    depends_on:
+      - db
+
   nginx:
     image: nginx:1.21
     ports:
@@ -71,5 +160,7 @@ services:
       - frontend
       - backend
       - big-up
+      - moviemaestro
+
 volumes:
   db-data:
