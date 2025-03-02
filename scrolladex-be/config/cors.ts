@@ -53,7 +53,8 @@ const corsConfig: CorsConfig = {
   */
   // origin: ['https://scrolladex.danielblack-dev.co.uk'],
 
-  origin: allowedOrigins,
+  origin: ['*'],
+  // origin: allowedOrigins,
 
   /*
   |--------------------------------------------------------------------------
