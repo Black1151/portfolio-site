@@ -12,6 +12,9 @@ export default class AuthController {
   }
 
   public async login({ request, auth, response }: HttpContextContract) {
+    console.log('XXX LOGIN ROUTE HIT')
+    console.log(request.body())
+
     const user = request.only(['username', 'password'])
     try {
       await auth.use('web').attempt(user.username, user.password)
