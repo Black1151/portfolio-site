@@ -5,7 +5,7 @@ import { Department } from "../types";
 export const getDepartmentsAPI = async (): Promise<Department[] | null> => {
   try {
     const response: AxiosResponse<Department[]> = await apiClient.get(
-      "/api/departments"
+      "/departments"
     );
     return response.data;
   } catch (error) {
@@ -19,7 +19,7 @@ export const getDepartmentDropDownListAPI = async (): Promise<
 > => {
   try {
     const response: AxiosResponse<{ id: number; departmentName: string }[]> =
-      await apiClient.get("/api/departments/dropdown");
+      await apiClient.get("/departments/dropdown");
     return response.data;
   } catch (error) {
     console.error("Error getting department names", error);
@@ -32,7 +32,7 @@ export const getDepartmentWithEmployeesAPI = async (
 ): Promise<Department | null> => {
   try {
     const response: AxiosResponse<Department> = await apiClient.get(
-      `/api/departments/${id}/with-employees`
+      `/departments/${id}/with-employees`
     );
     return response.data;
   } catch (error) {
@@ -49,7 +49,7 @@ export const getDepartmentAPI = async (
 ): Promise<Department | null> => {
   try {
     const response: AxiosResponse<Department> = await apiClient.get(
-      `/api/departments/${id}`
+      `/departments/${id}`
     );
     return response.data;
   } catch (error) {
@@ -63,7 +63,7 @@ export const createDepartmentAPI = async (
 ): Promise<number | null> => {
   try {
     const response: AxiosResponse<Department> = await apiClient.post(
-      "/api/departments",
+      "/departments",
       data
     );
     return response.status;
@@ -78,7 +78,7 @@ export const updateDepartmentAPI = async (
 ): Promise<Department | null> => {
   try {
     const response: AxiosResponse<Department> = await apiClient.put(
-      `/api/departments/${data.id}`,
+      `/departments/${data.id}`,
       data
     );
     return response.data;
@@ -91,7 +91,7 @@ export const updateDepartmentAPI = async (
 export const deleteDepartmentAPI = async (id: number): Promise<number> => {
   try {
     const response: AxiosResponse<Department> = await apiClient.delete(
-      `/api/departments/${id}`
+      `/departments/${id}`
     );
     return response.status;
   } catch (error) {
