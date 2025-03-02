@@ -6,7 +6,7 @@ export const getEmployeesOverviewAPI = async (
 ): Promise<EmployeeOverview[]> => {
   try {
     const response = await apiClient.get<EmployeeOverview[]>(
-      "/employees/overview",
+      "/api/employees/overview",
       {
         params: searchCriteria,
       }
@@ -20,7 +20,7 @@ export const getEmployeesOverviewAPI = async (
 
 export const getEmployeeAPI = async (id: number): Promise<Employee> => {
   try {
-    const response = await apiClient.get<Employee>(`/employees/${id}`);
+    const response = await apiClient.get<Employee>(`/api/employees/${id}`);
     return response.data;
   } catch (error) {
     console.error(`Error getting employee with id ${id}`, error);
@@ -32,7 +32,7 @@ export const createEmployeeAPI = async (
   data: EmployeeCreateUpdate
 ): Promise<number> => {
   try {
-    const response = await apiClient.post<Employee>("/employees", data);
+    const response = await apiClient.post<Employee>("/api/employees", data);
     return response.status;
   } catch (error) {
     console.error("Error creating employee", error);
@@ -45,7 +45,7 @@ export const updateEmployeeAPI = async (
 ): Promise<Employee> => {
   try {
     const response = await apiClient.put<Employee>(
-      `/employees/${data.id}`,
+      `/api/employees/${data.id}`,
       data
     );
     return response.data;
@@ -57,7 +57,7 @@ export const updateEmployeeAPI = async (
 
 export const deleteEmployeeAPI = async (id: number): Promise<number> => {
   try {
-    const response = await apiClient.delete(`/employees/${id}`);
+    const response = await apiClient.delete(`/api/employees/${id}`);
     return response.status;
   } catch (error) {
     console.error(`Error deleting employee with id ${id}`, error);
