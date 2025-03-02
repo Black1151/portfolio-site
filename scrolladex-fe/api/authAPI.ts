@@ -19,7 +19,7 @@ type ApiResponse<T> = {
 export const registerUserAPI = async (data: User): Promise<number | null> => {
   try {
     const response: AxiosResponse<User> = await apiClient.post(
-      "/api/register",
+      "/register",
       data
     );
     return response.status;
@@ -31,10 +31,7 @@ export const registerUserAPI = async (data: User): Promise<number | null> => {
 
 export const loginUserAPI = async (data: User): Promise<ApiResponse<User>> => {
   try {
-    const response: AxiosResponse<User> = await apiClient.post(
-      "/api/login",
-      data
-    );
+    const response: AxiosResponse<User> = await apiClient.post("/login", data);
     return {
       status: response.status,
       data: response.data,
@@ -47,7 +44,7 @@ export const loginUserAPI = async (data: User): Promise<ApiResponse<User>> => {
 
 export const logoutUserAPI = async (): Promise<number | null> => {
   try {
-    const response: AxiosResponse<null> = await apiClient.post("/api/logout");
+    const response: AxiosResponse<null> = await apiClient.post("/logout");
     return response.status;
   } catch (error) {
     console.error("Error logging out user", error);
@@ -57,7 +54,7 @@ export const logoutUserAPI = async (): Promise<number | null> => {
 
 export const getProfileAPI = async (): Promise<User | null> => {
   try {
-    const response: AxiosResponse<User> = await apiClient.get("/api/profile");
+    const response: AxiosResponse<User> = await apiClient.get("/profile");
     return response.data;
   } catch (error) {
     console.error("Error getting user profile", error);
@@ -68,7 +65,7 @@ export const getProfileAPI = async (): Promise<User | null> => {
 export const checkSessionAPI = async (): Promise<AuthenticatedResponse> => {
   try {
     const response: AxiosResponse<AuthenticatedResponse> = await apiClient.get(
-      "/api/check-session",
+      "/check-session",
       { withCredentials: true }
     );
     return response.data;
