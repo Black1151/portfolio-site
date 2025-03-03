@@ -95,12 +95,12 @@ services:
       - frontend
       - big-up
     ports:
-      - "80:80" # HTTP
-      - "443:443" # HTTPS
+      - "80:80"
+      - "443:443"
     volumes:
       - ./nginx.prod.conf:/etc/nginx/nginx.conf:ro
-      - ./certbot/conf:/etc/letsencrypt # For SSL certs
-      - ./certbot/www:/var/www/certbot # For ACME challenge
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
     restart: always
 
   # --------------------------------------------------

@@ -74,7 +74,7 @@
 # volumes:
 #   db-data:
 
-version: "3.8"
+
 services:
   db:
     image: postgres:17
