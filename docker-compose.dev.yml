@@ -1,80 +1,3 @@
-# version: "3.8"
-# services:
-#   db:
-#     image: postgres:17
-#     environment:
-#       POSTGRES_USER: scrolladexAdmin
-#       POSTGRES_PASSWORD: password
-#       POSTGRES_DB: scrolladex
-#     volumes:
-#       - ./init-scripts:/docker-entrypoint-initdb.d
-#       - db-data:/var/lib/postgresql/data
-#     ports:
-#       - "5432:5432"
-
-#   mainsite:
-#     build:
-#       context: ./mainsite-fe
-#       dockerfile: Dockerfile.dev
-#     volumes:
-#       - ./mainsite-fe:/usr/src/app
-#       - /usr/src/app/node_modules
-#       - /usr/src/app/.next
-
-#   backend:
-#     build:
-#       context: ./scrolladex-be
-#       dockerfile: Dockerfile.dev
-#     volumes:
-#       - ./scrolladex-be:/usr/src/app
-#       - ./scrolladex-be/public/uploads:/usr/src/app/public/uploads
-#     environment:
-#       - CHOKIDAR_USEPOLLING=true
-#       - CHOKIDAR_INTERVAL=100
-#     ports:
-#       - "3333:3333"
-#     depends_on:
-#       - db
-
-#   frontend:
-#     build:
-#       context: ./scrolladex-fe
-#       dockerfile: Dockerfile.dev
-#     volumes:
-#       - ./scrolladex-fe:/usr/src/app
-#       - /usr/src/app/node_modules
-#       - /usr/src/app/.next
-
-#   big-up:
-#     build:
-#       context: ./big-up-fe
-#       dockerfile: Dockerfile.dev
-#     environment:
-#       - DATABASE_URL=postgresql://scrolladexAdmin:password@db:5432/scrolladex
-#     volumes:
-#       - ./big-up-fe:/usr/src/app
-#       - /usr/src/app/node_modules
-#       - /usr/src/app/.next
-#     depends_on:
-#       - db
-
-#   nginx:
-#     image: nginx:1.21
-#     ports:
-#       - "80:80"
-#       - "443:443"
-#     volumes:
-#       - ./nginx.dev.conf:/etc/nginx/nginx.conf
-#       - ./certs/ssl:/etc/ssl/certs
-#       - ./scrolladex-be/public:/usr/src/nginx/public
-#     depends_on:
-#       - frontend
-#       - backend
-#       - big-up
-# volumes:
-#   db-data:
-
-
 services:
   db:
     image: postgres:17
@@ -107,6 +30,20 @@ services:
     environment:
       - CHOKIDAR_USEPOLLING=true
       - CHOKIDAR_INTERVAL=100
+      - DATABASE_URL=postgresql://scrolladexAdmin:password@db:5432/scrolladex
+      - HOST=0.0.0.0
+      - PORT=3333
+      - APP_KEY=2XFY1ttNs6CztecWpR_dOMEOd--grvZP
+      - APP_NAME=Scrolladex
+      - DRIVE_DISK=local
+      - NODE_ENV=development
+      - DB_CONNECTION=pg
+      - PG_HOST=db
+      - PG_PORT=5432
+      - PG_USER=scrolladexAdmin
+      - PG_PASSWORD=password
+      - PG_DB_NAME=scrolladex
+      - SESSION_DRIVER=cookie
     ports:
       - "3333:3333"
     depends_on:
