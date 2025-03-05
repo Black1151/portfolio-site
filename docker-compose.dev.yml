@@ -58,12 +58,12 @@ services:
       - /usr/src/app/node_modules
       - /usr/src/app/.next
 
-  scrolladex15-fe:
+  horizonHR-fe:
     build:
-      context: ./scrolladex15-fe
+      context: ./horizonHR-fe
       dockerfile: Dockerfile.dev
     volumes:
-      - ./scrolladex15-fe:/usr/src/app
+      - ./horizonHR-fe:/usr/src/app
       - /usr/src/app/node_modules
       - /usr/src/app/.next
 
